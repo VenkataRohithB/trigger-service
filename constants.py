@@ -1,11 +1,18 @@
 from enum import Enum
 import os
 
-PG_HOST = os.getenv("PG_HOST")
-PG_PORT = os.getenv("PG_PORT")
-PG_USER = os.getenv("PG_USER")
-PG_PASSWORD = os.getenv("PG_PASSWORD")
-PG_DATABASE = os.getenv("PG_DATABASE")
+# PG_HOST = os.getenv("PG_HOST")
+# PG_PORT = os.getenv("PG_PORT")
+# PG_USER = os.getenv("PG_USER")
+# PG_PASSWORD = os.getenv("PG_PASSWORD")
+# PG_DATABASE = os.getenv("PG_DATABASE")
+# SENDGRID_API = os.getenv("SENDGRID_API")
+
+PG_HOST = "dpg-cunmtk2n91rc73dqmklg-a.oregon-postgres.render.com"
+PG_PORT = 5432
+PG_USER = "trigger_service_user"
+PG_PASSWORD = "iKP7eKkRXSNmWPYYrpeqbfGHBLtCg02u"
+PG_DATABASE = "trigger_service"
 SENDGRID_API = os.getenv("SENDGRID_API")
 
 
