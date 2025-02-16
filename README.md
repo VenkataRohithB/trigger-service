@@ -1,4 +1,4 @@
-# Backend Assignment - Jan 2024
+# Backend Assignment - Trigger Service
 
 ## Event Trigger Platform
 
