@@ -105,11 +105,13 @@ The app is deployed on Render (free tier). Access it here:
 ---
 ## Cost Estimation
 ### Running Cost for 30 Days (5 queries/day)
-| Resource | Provider | Cost |
-|----------|----------|------|
-| Render (Free Tier) | Hosting | $0 |
-| PostgreSQL (Free Tier) | Database | $0 |
-| **Total** | **$0** |
+| Resource                        | Provider | Cost |
+|---------------------------------|----------|------|
+| Render (Free Tier)              | Hosting | 0 rs |
+| PostgreSQL (Free Tier)          | Database | 0 rs |
+| PostgreSQL (Free Tier)          | Database | 0 rs |
+| RabbitMQ -CloudAMQP (Free Tier) | Database | 0 rs |
+| **Total**                       | **$0** |
 
 ---
 ## Assumptions & Notes
