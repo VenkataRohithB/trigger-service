@@ -13,7 +13,6 @@ PG_PORT = 5432
 PG_USER = "trigger_service_user"
 PG_PASSWORD = "iKP7eKkRXSNmWPYYrpeqbfGHBLtCg02u"
 PG_DATABASE = "trigger_service"
-SENDGRID_API = os.getenv("SENDGRID_API")
 
 
 TOKEN_ALGORITHM = "HS256"

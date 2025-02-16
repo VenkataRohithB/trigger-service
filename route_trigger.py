@@ -2,8 +2,6 @@ import json
 import re
 from fastapi import Depends, Body, Request, APIRouter, Query
 from fastapi.security import HTTPAuthorizationCredentials
-from datetime import datetime, timedelta
-import pytz
 
 from om_helper import *
 from db_helper import *
@@ -14,14 +12,13 @@ from pubsub_helper import PubSub
 router = APIRouter(tags=["trigger"])
 
 TIME_PATTERN = r"^\d{4}-\d{2}-\d{2}-\d{2}:\d{2}$"
-KOLKATA_TZ = pytz.timezone('Asia/Kolkata')
 
 
 def check_trigger_time(trigger_time: str = None, interval: int = None, present: bool = False):
     if not trigger_time and not interval:
         return {"message": "Both 'trigger_time' and 'interval' cannot be None", "status_bool": False}
 
-    current_time = datetime.now(KOLKATA_TZ).replace(second=0, microsecond=0)
+    current_time = datetime.now().replace(second=0, microsecond=0)
 
     if not trigger_time:
         trigger_time = current_time.strftime("%Y-%m-%d-%H:%M")
@@ -31,7 +28,6 @@ def check_trigger_time(trigger_time: str = None, interval: int = None, present: 
 
     try:
         parsed_time = datetime.strptime(trigger_time, "%Y-%m-%d-%H:%M").replace(second=0, microsecond=0)
-        parsed_time = KOLKATA_TZ.localize(parsed_time)
         if interval:
             parsed_time += timedelta(minutes=interval)
         if parsed_time < current_time or (present and parsed_time == current_time):
@@ -64,7 +60,7 @@ async def create_trigger(
     trigger_type = "api" if is_api_trigger else "scheduled"
 
     parsed_time = (
-        datetime.now(KOLKATA_TZ).replace(second=0, microsecond=0)
+        datetime.now().replace(second=0, microsecond=0)
         if is_api_trigger
         else None
     )
@@ -91,12 +87,21 @@ async def create_trigger(
         "trigger_count": data.trigger_count
     }
 
+    # if is_api_trigger:
+    #     conn = PubSub(topic="TRIGGER_EVENTS")
+    #     publish_message = insert_data
+    #     publish_message["trigger_time"] = publish_message["trigger_time"].strftime("%Y-%m-%d %H:%M:%S")
+    #     res = conn.publish(msg_dict=insert_data)
+    #
+    #     print(res,insert_data)
+
     response = insert_query(table_name=S_TRIGGER_TABLE, data=insert_data)
 
     if response["status_bool"]:
         if is_api_trigger:
             conn = PubSub(topic="TRIGGER_EVENTS")
             conn.publish(msg_dict=response["records"][0])
+
         return success_json(records=response["records"], message=f"Trigger '{data.trigger_name}' created successfully")
 
     return failure_json(message=f"Failed to create trigger: {response.get('message')}", status_code=S_BADREQUEST_CODE)
@@ -134,7 +139,7 @@ async def get_logged_events(
         request: Request,
         token: HTTPAuthorizationCredentials = Depends(security)
 ):
-    present_timeline = (datetime.now(KOLKATA_TZ)).strftime("%Y-%m-%d %H:%M")
+    present_timeline = (datetime.now()).strftime("%Y-%m-%d %H:%M")
     conditions = {"trigger_time": present_timeline}
     response = select_query(table_name=S_TRIGGER_TABLE, conditions=conditions)
     if response:
@@ -162,8 +167,7 @@ async def update_triggers(
         return failure_json(message="Cannot change inactive triggers", status_code=S_FORBIDDEN_CODE)
 
     if "interval" in data:
-        data["trigger_time"] = datetime.strptime(get_response[0]["trigger_time"], "%Y-%m-%d %H:%M:%S.%f").strftime(
-            "%Y-%m-%d-%H:%M")
+        data["trigger_time"] = datetime.strptime(get_response[0]["trigger_time"], "%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d-%H:%M")
 
     if "trigger_time" in data:
         validate_response = check_trigger_time(trigger_time=data.get("trigger_time"), interval=data.get("interval"))

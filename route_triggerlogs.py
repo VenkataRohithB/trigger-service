@@ -1,7 +1,6 @@
 import json
 import re
 from datetime import datetime, timedelta
-import pytz
 from fastapi import Depends, Body, Request, APIRouter, Query
 from fastapi.security import HTTPAuthorizationCredentials
 
@@ -16,9 +15,8 @@ class EventStatus(str, Enum):
 
 
 def update_and_delete_records():
-    kolkata_tz = pytz.timezone("Asia/Kolkata")
-    archive_time = (datetime.now(kolkata_tz) - timedelta(seconds=60)).strftime("%Y-%m-%d %H:%M")
-    delete_time = (datetime.now(kolkata_tz) - timedelta(seconds=120)).strftime("%Y-%m-%d %H:%M")
+    archive_time = (datetime.now() - timedelta(seconds=60)).strftime("%Y-%m-%d %H:%M")
+    delete_time = (datetime.now() - timedelta(seconds=120)).strftime("%Y-%m-%d %H:%M")
     update_query = sql.SQL("""
         UPDATE {table}
         SET status = 'archived'
@@ -62,8 +60,7 @@ async def log_trigger_event(
     if not trigger_record:
         return failure_json(message="Trigger ID not found", status_code=S_BADREQUEST_CODE)
 
-    kolkata_tz = pytz.timezone("Asia/Kolkata")
-    triggered_at = datetime.now(kolkata_tz).replace(second=0, microsecond=0).strftime("%Y-%m-%d %H:%M")
+    triggered_at = datetime.now().replace(second=0, microsecond=0).strftime("%Y-%m-%d %H:%M")
 
     event_data = {
         "trigger_id": trigger_record["id"],
@@ -83,7 +80,7 @@ async def log_trigger_event(
         if trigger_record["interval"] is None:
             update_data["status"] = "inactive"
         else:
-            trigger_time = (datetime.now(kolkata_tz).replace(second=0, microsecond=0) + timedelta(minutes=trigger_record["interval"])).strftime("%Y-%m-%d %H:%M")
+            trigger_time = (datetime.now().replace(second=0, microsecond=0) + timedelta(minutes=trigger_record["interval"])).strftime("%Y-%m-%d %H:%M")
             update_data["trigger_time"] = trigger_time
 
 
