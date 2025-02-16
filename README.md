@@ -7,11 +7,9 @@ This project is an event trigger platform where users can create, manage, and tr
 ### Features
 - **Scheduled Triggers:** Fire at a fixed time or at intervals (one-time or recurring).
 - **API Triggers:** Fire upon receiving an API request with predefined payload.
-- **Manual Testing:** Test any trigger without saving it permanently.
 - **Event Logs:** Maintain logs for triggered events, stored for 2 hours (active), archived for 46 hours, and deleted after 48 hours.
 - **CRUD Operations:** Create, update, delete, and fetch triggers.
 - **Minimal UI:** Swagger UI/OpenAPI Spec for API interaction.
-- **Caching:** Optimized event log fetching.
 - **Authentication:** Token-based authentication.
 - **Containerized Deployment:** Works locally using Docker.
 
