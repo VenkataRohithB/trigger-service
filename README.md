@@ -92,9 +92,11 @@ Ensure Docker is installed, then run:
 ```sh
 git clone <repo_url>
 cd event-trigger-platform
-docker-compose up --build
+sudo docker build -t trigger-service .
+sudo docker run -p 8989:8989 trigger-service
 ```
-The app will be accessible at `http://localhost:8000`
+
+The app will be accessible at `http://localhost:8989`
 
 ### 2. Deployment
 The app is deployed on Render (free tier). Access it here:
@@ -107,7 +109,6 @@ The app is deployed on Render (free tier). Access it here:
 |----------|----------|------|
 | Render (Free Tier) | Hosting | $0 |
 | PostgreSQL (Free Tier) | Database | $0 |
-| Caching (In-Memory) | Free Tier | $0 |
 | **Total** | **$0** |
 
 ---
@@ -130,7 +131,4 @@ This project was built using:
 - **GitHub Repository:** [https://github.com/VenkataRohithB/trigger-service/]
 - **Live Api Swagger:** [https://trigger-service-lsma.onrender.com/docs#/]
 
-Ensure all steps in this README are followed exactly for testing.
-
-Happy Building!
 
