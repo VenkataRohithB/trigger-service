@@ -15,8 +15,8 @@ class EventStatus(str, Enum):
 
 
 def update_and_delete_records():
-    archive_time = (datetime.now() - timedelta(seconds=60)).strftime("%Y-%m-%d %H:%M")
-    delete_time = (datetime.now() - timedelta(seconds=120)).strftime("%Y-%m-%d %H:%M")
+    archive_time = (datetime.now() - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M")
+    delete_time = (datetime.now() - timedelta(hours=46)).strftime("%Y-%m-%d %H:%M")
     update_query = sql.SQL("""
         UPDATE {table}
         SET status = 'archived'
