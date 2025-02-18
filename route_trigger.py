@@ -30,8 +30,9 @@ def check_trigger_time(trigger_time: str = None, interval: int = None, present: 
         parsed_time = datetime.strptime(trigger_time, "%Y-%m-%d-%H:%M").replace(second=0, microsecond=0)
         if interval:
             parsed_time += timedelta(minutes=interval)
-        if parsed_time < current_time or (present and parsed_time == current_time):
+        if (present and parsed_time < current_time) or (not present and parsed_time <= current_time):
             return {"message": "Trigger time must be in the future", "status_bool": False}
+
 
     except ValueError:
         return {"message": "Invalid date. Use a valid YYYY-MM-DD-HH:mm", "status_bool": False}
