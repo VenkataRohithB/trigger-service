@@ -19,7 +19,7 @@ This project is an event trigger platform where users can create, manage, and tr
 ### 1. Authentication
 Before using the APIs, generate an access token:
 ```http
-GET https://trigger-service-lsma.onrender.com/generate_token?passcode=11923
+GET http://0.0.0.0:8989/generate_token?passcode=11923
 ```
 _Response:_
 ```json
@@ -30,7 +30,7 @@ Include this token in the `Authorization` header for all subsequent requests.
 ### 2. Create a Trigger
 #### One-time Scheduled Trigger
 ```http
-POST https://trigger-service-lsma.onrender.com/triggers/create_trigger
+POST http://0.0.0.0:8989/triggers/create_trigger
 Content-Type: application/json
 Authorization: Bearer <your_token>
 ```
@@ -60,26 +60,26 @@ _Interval is in minutes._
 
 ### 3. Fetch All Triggers
 ```http
-GET https://trigger-service-lsma.onrender.com/triggers/fetch
+GET http://0.0.0.0:8989/triggers/fetch
 Authorization: Bearer <your_token>
 ```
 
 ### 4. Edit a Trigger
 ```http
-PATCH https://trigger-service-lsma.onrender.com/triggers/update_trigger?trigger_id=123
+PATCH http://0.0.0.0:8989/triggers/update_trigger?trigger_id=123
 Authorization: Bearer <your_token>
 ```
 _Editable fields: trigger name, time, interval, API payload._
 
 ### 5. Delete a Trigger
 ```http
-DELETE https://trigger-service-lsma.onrender.com/triggers/delete_trigger?trigger_id=1
+DELETE http://0.0.0.0:8989/triggers/delete_trigger?trigger_id=1
 Authorization: Bearer <your_token>
 ```
 
 ### 6. Fetch Event Logs
 ```http
-GET https://trigger-service-lsma.onrender.com/triggered_events/fetch_events
+GET http://0.0.0.0:8989/triggered_events/fetch_events
 Authorization: Bearer <your_token>
 ```
 ---
@@ -99,6 +99,7 @@ The app will be accessible at `http://localhost:8989`
 ### 2. Deployment
 The app is deployed on Render (free tier). Access it here:
 [Live Demo](https://trigger-service-lsma.onrender.com)
+[Local Demo](http://0.0.0.0:8989)
 
 ---
 ## Cost Estimation
@@ -129,6 +130,8 @@ This project was built using:
 ---
 ## Submission Details
 - **GitHub Repository:** [https://github.com/VenkataRohithB/trigger-service/]
-- **Live Api Swagger:** [https://trigger-service-lsma.onrender.com/docs#/]
+- **Live Api Swagger:- Not Working** [https://trigger-service-lsma.onrender.com/docs#/]
+- **Live Api Swagger:- Not Working** [http:0.0.0.0:8989/docs#/]
+
 
 
